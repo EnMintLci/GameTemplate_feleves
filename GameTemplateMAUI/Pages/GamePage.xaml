@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Name="GamePageN"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="GameTemplateMAUI.Pages.GamePage">
+
+    <VerticalStackLayout
+        Padding="20"
+        Spacing="20">
+
+        <Label
+            Text="Two Knights"
+            FontSize="28"
+            HorizontalOptions="Center" />
+        <Label
+            Text="{Binding Size}"
+            FontSize="28"
+            HorizontalOptions="Center"
+            />
+
+        <CollectionView
+            ItemsSource="{Binding Cells}"
+            SelectionMode="None"
+            HeightRequest="320"
+            InputTransparent="{Binding IsGameEnded}"
+            >
+
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout
+                    Orientation="Vertical"
+                    Span="{Binding Size}"
+                    HorizontalItemSpacing="5"
+                    VerticalItemSpacing="5" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        HeightRequest="70"
+                        VerticalOptions="Fill"
+                        Stroke="Black"
+                        StrokeThickness="1"
+                        BackgroundColor="White"
+                        
+                        HorizontalOptions="Fill"
+                        >
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer
+        Command="{Binding Source={x:Reference GamePageN},
+                          Path=BindingContext.CellTappedCommand}"
+        CommandParameter="{Binding .}" />
+                        </Border.GestureRecognizers>
+                        <Border.Triggers>
+                            <DataTrigger
+                                TargetType="Border"
+                                Binding="{Binding IsWinningSpot}"
+                                Value="True">
+                                <Setter
+                                    Property="BackgroundColor"
+                                    Value="LightGreen" />
+                            </DataTrigger>
+                        </Border.Triggers>
+
+                        <Label
+                            Text="{Binding DisplayText}"
+                            FontSize="28"
+                            TextColor="Black"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center" />
+
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+        
+    </VerticalStackLayout>
+</ContentPage>
